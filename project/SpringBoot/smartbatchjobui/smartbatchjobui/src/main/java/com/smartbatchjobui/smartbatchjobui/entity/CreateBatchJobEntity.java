@@ -7,6 +7,8 @@ import javax.persistence.*;
 @Entity(name = "batch_job")
 @EntityListeners(AuditingEntityListener.class)
 public class CreateBatchJobEntity extends AudiTable{
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Batch_job_id")
@@ -27,7 +29,13 @@ public class CreateBatchJobEntity extends AudiTable{
                 ", batchJobType='" + batchJobType + '\'' +
                 '}';
     }
+    public Long getBatchJobId() {
+        return batchJobId;
+    }
 
+    public void setBatchJobId(Long batchJobId) {
+        this.batchJobId = batchJobId;
+    }
     public Long getId() {
         return batchJobId;
     }

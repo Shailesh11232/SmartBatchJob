@@ -14,7 +14,7 @@ public class CreateBatchJobParameter {
     public CreateBatchJobParameter(){
 
     }
-    public CreateBatchJobParameter(Long id, String parameterName, String parameterDescription, String parameterType, String parameterFormat, Boolean mandatoryFlag, Boolean visibleFlag, String defaultValue, String regexforValidation) {
+    public CreateBatchJobParameter(Long batchJobParameterId, String parameterName, String parameterDescription, String parameterType, String parameterFormat, Boolean mandatoryFlag, Boolean visibleFlag, String defaultValue, String regexforValidation) {
         this.batchJobParameterId = batchJobParameterId;
         ParameterName = parameterName;
         ParameterDescription = parameterDescription;
@@ -41,10 +41,10 @@ public class CreateBatchJobParameter {
                 '}';
     }
 
-    public Long getId() {
+    public Long getId()
+    {
         return batchJobParameterId;
     }
-
     public void setId(Long id) {
         this.batchJobParameterId = id;
     }
@@ -111,5 +111,13 @@ public class CreateBatchJobParameter {
 
     public void setRegexforValidation(String regexforValidation) {
         RegexforValidation = regexforValidation;
+    }
+
+    public Long getBatchJobParameterId(Long batchJobParameterId) {
+
+        return this.batchJobParameterId;
+    }
+    public void setBatchJobParameterId(Long  batchJobParameterId) {
+        this.batchJobParameterId = batchJobParameterId;
     }
 }

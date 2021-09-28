@@ -65,4 +65,12 @@ public class CreateBatchJobResources {
     void  DeleteBatchJob(@PathVariable("BatchJobId") long BatchJobId){
         createBatchJobService.deleteById(BatchJobId);
     }
+    @GetMapping("batchData/{BatchJObId}")
+    ResponseEntity<CreateBatchJob>  getAllId (@PathVariable(
+            "BatchJObId")Long BatchJObId){
+        System.out.println("BatchJObId:"+BatchJObId);
+        CreateBatchJob createBatchJobResult =
+                createBatchJobService.get(BatchJObId);
+        return ResponseEntity.ok().body(createBatchJobResult);
+    }
 }

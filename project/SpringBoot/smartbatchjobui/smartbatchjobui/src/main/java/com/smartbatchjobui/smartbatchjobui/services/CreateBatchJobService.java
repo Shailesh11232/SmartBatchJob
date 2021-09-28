@@ -24,7 +24,7 @@ public class CreateBatchJobService {
 
         public CreateBatchJob CreateBJob( CreateBatchJob createBatchJob){
             CreateBatchJobEntity createBatchJobEntity = new CreateBatchJobEntity();
-            createBatchJobEntity.setId(0L);
+            createBatchJobEntity.setBatchJobId(0L);
             createBatchJobEntity.setBatchJobDescription(createBatchJob.getBatchJobDescription());
             createBatchJobEntity.setBatchJobName(createBatchJob.getBatchJobName());
             createBatchJobEntity.setBatchJobType(createBatchJob.getBatchJobType());
@@ -32,7 +32,7 @@ public class CreateBatchJobService {
                     = createBatchJobRepository.save(createBatchJobEntity);
 
             CreateBatchJob createBatchJob1 = new CreateBatchJob();
-            createBatchJob1.setId(createBatchJobEntityResult.getId());
+            createBatchJob1.setBatchJobId(createBatchJobEntityResult.getBatchJobId());
             createBatchJob1.setBatchJobDescription(createBatchJobEntityResult.getBatchJobDescription());
             createBatchJob1.setBatchJobName(createBatchJobEntityResult.getBatchJobName());
             createBatchJob1.setBatchJobType(createBatchJobEntityResult.getBatchJobType());
@@ -43,8 +43,8 @@ public class CreateBatchJobService {
            createBatchJob.getCreateBatchJobParameter().forEach(createBatchJobParameter -> {
                CreateBatchJobParameterEntity createBatchJobParameterEntity
                        = new CreateBatchJobParameterEntity();
-               createBatchJobParameterEntity.setId(0L);
-               createBatchJobParameterEntity.setCreateBatchJobId(createBatchJobEntityResult.getId());
+               createBatchJobParameterEntity.setCreateBatchJobId(0L);
+               createBatchJobParameterEntity.setCreateBatchJobId(createBatchJobEntityResult.getBatchJobId());
                createBatchJobParameterEntity.setDefaultValue(createBatchJobParameter.getDefaultValue());
                createBatchJobParameterEntity.setMandatoryFlag(createBatchJobParameter.getMandatoryFlag());
                createBatchJobParameterEntity.setParameterDescription(createBatchJobParameter.getParameterDescription());
@@ -57,7 +57,7 @@ public class CreateBatchJobService {
                        = createBatchJobParameterRepository.save(createBatchJobParameterEntity);
 
                CreateBatchJobParameter createBatchJobParameter1 = new CreateBatchJobParameter();
-               createBatchJobParameter1.setId(createBatchJobParameterEntityResult.getId());
+               createBatchJobParameter1.getBatchJobParameterId(createBatchJobParameterEntityResult.getBatchJobParameterId());
                createBatchJobParameter1.setDefaultValue(createBatchJobParameterEntityResult.getDefaultValue());
                createBatchJobParameter1.setMandatoryFlag(createBatchJobParameterEntityResult.getMandatoryFlag());
                createBatchJobParameter1.setParameterDescription(createBatchJobParameterEntityResult.getParameterDescription());
@@ -79,7 +79,7 @@ public class CreateBatchJobService {
         ArrayList<CreateBatchJobParameter> createBatchJobParameterList = new ArrayList<>();
         createBatchJobParameterEntityList.forEach(createBatchJobParameterEntity -> {
                 CreateBatchJobParameter createBatchJobParameter = new CreateBatchJobParameter();
-                createBatchJobParameter.setId(createBatchJobParameterEntity.getId());
+                createBatchJobParameter.setBatchJobParameterId(createBatchJobParameterEntity.getBatchJobParameterId());
                 createBatchJobParameter.setDefaultValue(createBatchJobParameterEntity.getDefaultValue());
                 createBatchJobParameter.setMandatoryFlag(createBatchJobParameterEntity.getMandatoryFlag());
                 createBatchJobParameter.setParameterDescription(createBatchJobParameterEntity.getParameterDescription());
@@ -105,7 +105,7 @@ public class CreateBatchJobService {
 
             CreateBatchJob createBatchJob =
                     new CreateBatchJob();
-            createBatchJob.setId(createBatchJobEntity.getId());
+            createBatchJob.setBatchJobId(createBatchJobEntity.getBatchJobId());
             createBatchJob.setBatchJobName(createBatchJobEntity.getBatchJobName());
             createBatchJob.setBatchJobDescription(createBatchJobEntity.getBatchJobDescription());
             createBatchJob.setBatchJobType(createBatchJobEntity.getBatchJobType());
@@ -125,7 +125,7 @@ CreateBatchJobEntity createBatchJobEntity =
             CreateBatchJobParameterEntity createBatchJobParameterEntity
                     = new CreateBatchJobParameterEntity();
             createBatchJobParameterEntity.setId(batchJobId);
-            createBatchJobParameterEntity.setCreateBatchJobId(createBatchJobEntity.getId());
+            createBatchJobParameterEntity.setCreateBatchJobId(createBatchJobEntity.getBatchJobId());
             createBatchJobParameterEntity.setDefaultValue(createBatchJobParameter.getDefaultValue());
             createBatchJobParameterEntity.setVisibleFlag(createBatchJobParameter.getVisibleFlag());
             createBatchJobParameterEntity.setRegexforValidation(createBatchJobParameter.getRegexforValidation());
@@ -138,7 +138,7 @@ CreateBatchJobEntity createBatchJobEntity =
                 = createBatchJobParameterRepository.save(createBatchJobParameterEntity);
 
             CreateBatchJobParameter createBatchJobParameter1 = new CreateBatchJobParameter();
-            createBatchJobParameter1.setId(createBatchJobParameterEntityResult.getId());
+            createBatchJobParameter1.setBatchJobParameterId(createBatchJobParameterEntityResult.getBatchJobParameterId());
             createBatchJobParameter1.setVisibleFlag(createBatchJobParameterEntityResult.getVisibleFlag());
             createBatchJobParameter1.setRegexforValidation(createBatchJobParameterEntityResult.getRegexforValidation());
             createBatchJobParameter1.setParameterType(createBatchJobParameterEntityResult.getParameterType());
@@ -152,5 +152,43 @@ CreateBatchJobEntity createBatchJobEntity =
     public void deleteById(long BatchJobId) {
         createBatchJobParameterRepository.deleteById(BatchJobId);
         createBatchJobRepository.deleteById(BatchJobId);
+    }
+
+    public CreateBatchJob  get(Long BatchJobId){
+
+        CreateBatchJobEntity createBatchJobEntity =
+                createBatchJobRepository.findById(BatchJobId).get();
+
+        List<CreateBatchJobParameterEntity> createBatchJobParameterEntityList =
+                createBatchJobParameterRepository.findAllByCreateBatchJobId(BatchJobId);
+
+        ArrayList<CreateBatchJobParameter> createBatchJobParameterList =
+                new ArrayList<>();
+        createBatchJobParameterEntityList.forEach(createBatchJobParameterEntity -> {
+
+            CreateBatchJobParameter createBatchJobParameter = new CreateBatchJobParameter();
+            createBatchJobParameter.setBatchJobParameterId(createBatchJobParameterEntity.getBatchJobParameterId());
+            createBatchJobParameter.setDefaultValue(createBatchJobParameterEntity.getDefaultValue());
+            createBatchJobParameter.setMandatoryFlag(createBatchJobParameterEntity.getMandatoryFlag());
+            createBatchJobParameter.setParameterDescription(createBatchJobParameterEntity.getParameterDescription());
+            createBatchJobParameter.setParameterFormat(createBatchJobParameterEntity.getParameterFormat());
+            createBatchJobParameter.setParameterName(createBatchJobParameterEntity.getParameterName());
+            createBatchJobParameter.setParameterType(createBatchJobParameterEntity.getParameterType());
+            createBatchJobParameter.setRegexforValidation(createBatchJobParameterEntity.getRegexforValidation());
+            createBatchJobParameter.setVisibleFlag(createBatchJobParameterEntity.getVisibleFlag());
+            createBatchJobParameterList.add(createBatchJobParameter);
+
+
+        });
+        CreateBatchJob createBatchJob =
+                new CreateBatchJob();
+
+        createBatchJob.setBatchJobId(createBatchJobEntity.getBatchJobId());
+        createBatchJob.setBatchJobName(createBatchJobEntity.getBatchJobName());
+        createBatchJob.setBatchJobDescription(createBatchJobEntity.getBatchJobDescription());
+        createBatchJob.setBatchJobType(createBatchJobEntity.getBatchJobType());
+        createBatchJob.setCreateBatchJobParameter(createBatchJobParameterList);
+
+        return createBatchJob;
     }
 }

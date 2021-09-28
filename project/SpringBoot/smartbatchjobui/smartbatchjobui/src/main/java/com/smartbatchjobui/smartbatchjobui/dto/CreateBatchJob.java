@@ -3,11 +3,24 @@ package com.smartbatchjobui.smartbatchjobui.dto;
 import java.util.List;
 
 public class CreateBatchJob {
+
     private Long batchJobId ;
     private String batchJobName;
     private String batchJobDescription ;
     private String batchJobType ;
     private List<CreateBatchJobParameter> createBatchJobParameter ;
+    public CreateBatchJob(){
+
+    }
+
+    public CreateBatchJob(Long batchJobId, String batchJobName, String batchJobDescription, String batchJobType, List<CreateBatchJobParameter> createBatchJobParameter) {
+        this.batchJobId = batchJobId;
+        this.batchJobName = batchJobName;
+        this.batchJobDescription = batchJobDescription;
+        this.batchJobType = batchJobType;
+        this.createBatchJobParameter = createBatchJobParameter;
+    }
+
 
     @Override
     public String toString() {
@@ -19,10 +32,14 @@ public class CreateBatchJob {
                 ", createBatchJobParameter=" + createBatchJobParameter +
                 '}';
     }
-
-    public Long getId() {
+    public Long getBatchJobId() {
         return batchJobId;
     }
+
+    public void setBatchJobId(Long batchJobId) {
+        this.batchJobId = batchJobId;
+    }
+
 
     public void setId(Long id) {
         this.batchJobId = id;

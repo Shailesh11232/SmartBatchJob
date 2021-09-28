@@ -46,6 +46,14 @@ public class CreateBatchJobParameterEntity extends AudiTable{
                 '}';
     }
 
+    public Long getBatchJobParameterId() {
+        return batchJobParameterId;
+    }
+
+    public void setBatchJobParameterId(Long batchJobParameterId) {
+        this.batchJobParameterId = batchJobParameterId;
+    }
+
     public Long getId() {
         return batchJobParameterId;
     }
