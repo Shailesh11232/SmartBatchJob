@@ -38,6 +38,17 @@ public class CreateBatchJobResources {
                 createBatchJobService.getIdBatchJob(createBatchJobId);
         return ResponseEntity.ok().body(createBatchJobParametersResult);
     }
+
+    @GetMapping("batchData/{BatchJobId}")
+    ResponseEntity<List<CreateBatchJobParameter>> getAllId (@PathVariable(
+            "BatchJobId")Long BatchJobId){
+        System.out.println("BatchJobId:"+BatchJobId);
+        List<CreateBatchJobParameter> createBatchJobResult =
+                createBatchJobService.get(BatchJobId);
+        return ResponseEntity.ok().body(createBatchJobResult);
+    }
+
+
     @GetMapping("cbj/allGet")
     ResponseEntity<List<CreateBatchJob>> allGet(){
           List<CreateBatchJob> createBatchJobResult =
@@ -49,8 +60,8 @@ public class CreateBatchJobResources {
         createBatchJobService.deleteById(id);
     }
 
-    @PutMapping("UpadateParametrt/{id}")
-    ResponseEntity<CreateBatchJobParameter> UpadateParametrt(@RequestBody CreateBatchJobParameter createBatchJobParameter,
+    @PutMapping("UpadateParameter/{id}")
+    ResponseEntity<CreateBatchJobParameter> UpadateParameter(@RequestBody CreateBatchJobParameter createBatchJobParameter,
                                                              @PathVariable("id")Long id){
         System.out.println("CreateBatchJobParameter:"+createBatchJobParameter);
         CreateBatchJobParameter createBatchJobParameterResult =
@@ -65,12 +76,7 @@ public class CreateBatchJobResources {
     void  DeleteBatchJob(@PathVariable("BatchJobId") long BatchJobId){
         createBatchJobService.deleteById(BatchJobId);
     }
-    @GetMapping("batchData/{BatchJObId}")
-    ResponseEntity<CreateBatchJob>  getAllId (@PathVariable(
-            "BatchJObId")Long BatchJObId){
-        System.out.println("BatchJObId:"+BatchJObId);
-        CreateBatchJob createBatchJobResult =
-                createBatchJobService.get(BatchJObId);
-        return ResponseEntity.ok().body(createBatchJobResult);
-    }
+
+
+
 }

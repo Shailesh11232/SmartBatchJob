@@ -36,14 +36,7 @@ public class CreateBatchJobEntity extends AudiTable{
     public void setBatchJobId(Long batchJobId) {
         this.batchJobId = batchJobId;
     }
-    public Long getId() {
-        return batchJobId;
-    }
-
-    public void setId(Long id) {
-        this.batchJobId = id;
-    }
-
+    
     public String getBatchJobName() {
         return batchJobName;
     }

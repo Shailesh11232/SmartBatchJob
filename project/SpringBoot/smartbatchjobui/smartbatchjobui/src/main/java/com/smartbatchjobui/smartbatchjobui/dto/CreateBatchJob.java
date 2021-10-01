@@ -13,7 +13,8 @@ public class CreateBatchJob {
 
     }
 
-    public CreateBatchJob(Long batchJobId, String batchJobName, String batchJobDescription, String batchJobType, List<CreateBatchJobParameter> createBatchJobParameter) {
+    public CreateBatchJob(Long batchJobId, String batchJobName, String batchJobDescription,
+                          String batchJobType, List<CreateBatchJobParameter> createBatchJobParameter) {
         this.batchJobId = batchJobId;
         this.batchJobName = batchJobName;
         this.batchJobDescription = batchJobDescription;
@@ -21,6 +22,10 @@ public class CreateBatchJob {
         this.createBatchJobParameter = createBatchJobParameter;
     }
 
+
+    public Long getBatchJobId() {
+        return batchJobId;
+    }
 
     @Override
     public String toString() {
@@ -32,18 +37,11 @@ public class CreateBatchJob {
                 ", createBatchJobParameter=" + createBatchJobParameter +
                 '}';
     }
-    public Long getBatchJobId() {
-        return batchJobId;
-    }
 
     public void setBatchJobId(Long batchJobId) {
         this.batchJobId = batchJobId;
     }
 
-
-    public void setId(Long id) {
-        this.batchJobId = id;
-    }
 
     public String getBatchJobName() {
         return batchJobName;
