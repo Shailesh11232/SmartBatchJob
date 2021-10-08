@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import java.net.URI;
 import java.util.List;
 
@@ -20,15 +19,57 @@ public class CreateBatchJobResources {
     CreateBatchJobService createBatchJobService;
 
 
-      @PostMapping("cbj")
-      ResponseEntity<CreateBatchJob>  CreateBJob(@RequestBody CreateBatchJob createBatchJob){
-          System.out.println("CreateBatchJob:"+createBatchJob);
-          CreateBatchJob createBatchJobResult = createBatchJobService.CreateBJob(createBatchJob);
-          URI location =
-                  ServletUriComponentsBuilder.fromCurrentRequestUri()
-                          .path("{/id}").buildAndExpand(createBatchJobResult).toUri();
-          return ResponseEntity.created(location).body(createBatchJobResult);
+    @PostMapping("cbj")
+    ResponseEntity<CreateBatchJob>  CreateBJob(@RequestBody CreateBatchJob createBatchJob){
+        System.out.println("CreateBatchJob:"+createBatchJob);
+        Long batchJobId = createBatchJob.getBatchJobId();
+        if(createBatchJob.getBatchJobId() != null &&
+                createBatchJob.getBatchJobId()
+                        != 0) {
+              /* CreateBatchJob createBatchJobResult =  createBatchJobService.CreateBJob(createBatchJob);
+              URI location = ServletUriComponentsBuilder.fromCurrentRequestUri() .path("{/id}").buildAndExpand(createBatchJobResult).toUri();
+              return ResponseEntity.created(location).body(createBatchJobResult);*/
+                 System.out.println("batchjob id for update:"+batchJobId);
+                 createBatchJobService.deleteAllParameter(batchJobId);
+
+            CreateBatchJob createBatchJobResult =
+                    createBatchJobService.createparameter(createBatchJob);
+            URI location =
+                    ServletUriComponentsBuilder.fromCurrentRequestUri()
+                            .path("{/id}").buildAndExpand(createBatchJobResult).toUri();
+            return ResponseEntity.created(location).body(createBatchJobResult);
+        } else {
+
+            CreateBatchJob createBatchJobResult =
+                    createBatchJobService.CreateBJob(createBatchJob);
+            URI location =
+                    ServletUriComponentsBuilder.fromCurrentRequestUri()
+                            .path("{/id}").buildAndExpand(createBatchJobResult).toUri();
+            return ResponseEntity.created(location).body(createBatchJobResult);
+        }
+
+
     }
+
+    /*@PostMapping("PostParameter/{BatchJobId}")
+    ResponseEntity<CreateBatchJobParameter> PostParameter(@RequestBody
+                                                                  CreateBatchJobParameter createBatchJobParameter,
+                                                          @PathVariable("BatchJobId")Long BatchJobId){
+        System.out.println("BatchJobId:"+BatchJobId);
+        System.out.println("CreateBatchJobParameter:"+createBatchJobParameter);
+        CreateBatchJobParameter createBatchJobParameterResult =
+                createBatchJobService.PostParameter
+                        (createBatchJobParameter,BatchJobId);
+        URI location =
+                ServletUriComponentsBuilder.fromCurrentRequestUri()
+                        .path("{/id}").buildAndExpand(createBatchJobParameterResult).toUri();
+        return ResponseEntity.created(location).body(createBatchJobParameterResult);
+    }
+    @DeleteMapping("ParameterDelete/{BatchJobId}/parameter/{ParameterId}")
+    void  DeleteParameterJob(@PathVariable("BatchJobId") long BatchJobId,
+                             @PathVariable("ParameterId") long ParameterId){
+        createBatchJobService.deleteByParameter(BatchJobId,ParameterId);
+    }*/
     @GetMapping("cbj/{createBatchJobId}")
     ResponseEntity<List<CreateBatchJobParameter>> getIdBatchJob(@PathVariable(
             "createBatchJobId")Long createBatchJobId){
@@ -37,7 +78,7 @@ public class CreateBatchJobResources {
                 createBatchJobService.getIdBatchJob(createBatchJobId);
         return ResponseEntity.ok().body(createBatchJobParametersResult);
     }
-
+///get data by batchjob id
     @GetMapping("batchData/{BatchJobId}")
     ResponseEntity<CreateBatchJob>  getAllId (@PathVariable(
             "BatchJobId")Long BatchJobId){
@@ -47,7 +88,22 @@ public class CreateBatchJobResources {
         return ResponseEntity.ok().body(createBatchJobResult);
     }
 
-
+    @PutMapping("PutParameter/{BatchJobId}/parameter/{parameterId}")
+    ResponseEntity<CreateBatchJobParameter> PutParameter(@RequestBody
+                                                                 CreateBatchJobParameter createBatchJobParameter,
+                                                         @PathVariable("parameterId")Long parameterId,
+                                                         @PathVariable("BatchJobId")Long BatchJobId){
+        System.out.println("BatchJobId:"+BatchJobId);
+        System.out.println("parameterId:"+parameterId);
+        System.out.println("CreateBatchJobParameter:"+createBatchJobParameter);
+        CreateBatchJobParameter createBatchJobParameterResult =
+                createBatchJobService.PutParameter
+                        (createBatchJobParameter,BatchJobId,parameterId);
+        URI location =
+                ServletUriComponentsBuilder.fromCurrentRequestUri()
+                        .path("{/parameterId}").buildAndExpand(createBatchJobParameterResult).toUri();
+        return ResponseEntity.created(location).body(createBatchJobParameterResult);
+    }
     @GetMapping("cbj/allGet")
     ResponseEntity<List<CreateBatchJob>> allGet(){
           List<CreateBatchJob> createBatchJobResult =
@@ -59,17 +115,7 @@ public class CreateBatchJobResources {
         createBatchJobService.deleteById(batchJobParameterId);
     }
 
-    @PutMapping("UpadateParameter/{BatchJobId}")
-    ResponseEntity<CreateBatchJobParameter> UpadateParameter(@RequestBody CreateBatchJobParameter createBatchJobParameter,
-                                                             @PathVariable("BatchJobId")Long BatchJobId){
-        System.out.println("CreateBatchJobParameter:"+createBatchJobParameter);
-        CreateBatchJobParameter createBatchJobParameterResult =
-                createBatchJobService.UpadetParameter(createBatchJobParameter, BatchJobId);
-        URI location =
-                ServletUriComponentsBuilder.fromCurrentRequestUri()
-                        .path("{/BatchJobId}").buildAndExpand(createBatchJobParameterResult).toUri();
-        return ResponseEntity.created(location).body(createBatchJobParameterResult);
-    }
+
 
     @DeleteMapping("BatchJobDelete/{BatchJobId}")
     void  DeleteBatchJob(@PathVariable("BatchJobId") long BatchJobId){
