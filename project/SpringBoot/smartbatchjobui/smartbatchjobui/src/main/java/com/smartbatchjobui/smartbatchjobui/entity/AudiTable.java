@@ -21,6 +21,15 @@ public class AudiTable {
     private LocalDateTime lastModifiedDate =
             LocalDateTime.now();
 
+    public AudiTable(LocalDateTime createdDate, LocalDateTime lastModifiedDate) {
+        this.createdDate = createdDate;
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
+    public AudiTable() {
+
+    }
+
     @Override
     public String toString() {
         return "AudiTable{" +

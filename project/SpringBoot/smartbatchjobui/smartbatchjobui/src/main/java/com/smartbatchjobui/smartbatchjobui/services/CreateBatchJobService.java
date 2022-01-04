@@ -1,9 +1,15 @@
 package com.smartbatchjobui.smartbatchjobui.services;
 
+import com.smartbatchjobui.smartbatchjobui.dto.BatchJobAudit;
+import com.smartbatchjobui.smartbatchjobui.dto.BatchJobParameterAudit;
 import com.smartbatchjobui.smartbatchjobui.dto.CreateBatchJob;
 import com.smartbatchjobui.smartbatchjobui.dto.CreateBatchJobParameter;
+import com.smartbatchjobui.smartbatchjobui.entity.BatchJobAuditEntity;
+import com.smartbatchjobui.smartbatchjobui.entity.BatchJobParameterAuditEntity;
 import com.smartbatchjobui.smartbatchjobui.entity.CreateBatchJobEntity;
 import com.smartbatchjobui.smartbatchjobui.entity.CreateBatchJobParameterEntity;
+import com.smartbatchjobui.smartbatchjobui.repositoris.BatchJobAuditRepository;
+import com.smartbatchjobui.smartbatchjobui.repositoris.BatchJobParameterAuditRepository;
 import com.smartbatchjobui.smartbatchjobui.repositoris.CreateBatchJobParameterRepository;
 import com.smartbatchjobui.smartbatchjobui.repositoris.CreateBatchJobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +24,10 @@ public class CreateBatchJobService {
 
     @Autowired
     CreateBatchJobParameterRepository createBatchJobParameterRepository;
+    @Autowired
+    BatchJobAuditRepository batchJobAuditRepository;
+    @Autowired
+    BatchJobParameterAuditRepository batchJobParameterAuditRepository;
 
     //create  new batch job
     public CreateBatchJob CreateBJob(CreateBatchJob createBatchJob) {
@@ -202,8 +212,101 @@ public class CreateBatchJobService {
         createBatchJob.setBatchJobDescription(createBatchJobEntity.getBatchJobDescription());
         createBatchJob.setBatchJobType(createBatchJobEntity.getBatchJobType());
         createBatchJob.setCreateBatchJobParameter(createBatchJobParameterList);
-
         return createBatchJob;
     }
+    ////audit service
+    public BatchJobAudit BatchJobAudit(BatchJobAudit batchJobAudit){
+        BatchJobAuditEntity batchJobAuditEntity = new BatchJobAuditEntity();
+        //batchJobAuditEntity.setBatchJobAuditId(0L);
+        batchJobAuditEntity.setBatchJobName(batchJobAudit.getBatchJobName());
+        batchJobAuditEntity.setBatchJobType(batchJobAudit.getBatchJobType());
+        batchJobAuditEntity.setAuditUserId(batchJobAudit.getAuditUserId());
+       batchJobAuditEntity.setOperation(batchJobAudit.getOperation());
+        batchJobAuditEntity.setBatchJobDescription(batchJobAudit.getBatchJobDescription());
+        BatchJobAuditEntity batchJobAuditEntityResult =
+                batchJobAuditRepository.save(batchJobAuditEntity);
+        BatchJobAudit batchJobAudit1 =
+                new BatchJobAudit();
+        batchJobAudit1.setAuditUserId(batchJobAuditEntityResult.getAuditUserId());
+       // batchJobAudit1.setBatchJobAuditId(batchJobAuditEntityResult.getBatchJobAuditId());
+        batchJobAudit1.setBatchJobDescription(batchJobAuditEntityResult.getBatchJobDescription());
+        batchJobAudit1.setBatchJobId(batchJobAuditEntityResult.getBatchJobId());
+        batchJobAudit1.setBatchJobName(batchJobAuditEntityResult.getBatchJobName());
+        batchJobAudit1.setBatchJobType(batchJobAuditEntityResult.getBatchJobType());
+        batchJobAudit1.setOperation(batchJobAuditEntityResult.getOperation());
+        List<CreateBatchJobParameter> batchJobParameterAuditList = new ArrayList<>();
+        batchJobAudit1.setCreateBatchJobParameter(batchJobParameterAuditList);
+
+          batchJobAudit.getCreateBatchJobParameter().forEach(createBatchJobParameter -> {
+            BatchJobParameterAuditEntity batchJobParameterAuditEntity
+                    = new BatchJobParameterAuditEntity();
+           // batchJobParameterAuditEntity.setCreateBatchJobId(0L);
+         //   batchJobParameterAuditEntity.setCreateBatchJobId(batchJobAuditEntityResult.getBatchJobId());
+            batchJobParameterAuditEntity.setAuditUserId(batchJobAudit.getAuditUserId());
+            batchJobParameterAuditEntity.setOperation(batchJobAudit.getOperation());
+            batchJobParameterAuditEntity.setDefaultValue(createBatchJobParameter.getDefaultValue());
+            batchJobParameterAuditEntity.setMandatoryFlag(createBatchJobParameter.getMandatoryFlag());
+            batchJobParameterAuditEntity.setParameterDescription(createBatchJobParameter.getParameterDescription());
+            batchJobParameterAuditEntity.setParameterFormat(createBatchJobParameter.getParameterFormat());
+            batchJobParameterAuditEntity.setParameterName(createBatchJobParameter.getParameterName());
+            batchJobParameterAuditEntity.setParameterType(createBatchJobParameter.getParameterType());
+            batchJobParameterAuditEntity.setRegexForValidation(createBatchJobParameter.getRegexforValidation());
+            batchJobParameterAuditEntity.setVisibleFlag(createBatchJobParameter.getVisibleFlag());
+            BatchJobParameterAuditEntity batchJobParameterAuditEntity1
+                    = batchJobParameterAuditRepository.save(batchJobParameterAuditEntity);
+
+            BatchJobParameterAudit batchJobParameterAudit1 = new BatchJobParameterAudit();
+            batchJobParameterAudit1.setParameterId(batchJobParameterAuditEntity1.getBatchJobParameterId());
+            batchJobParameterAudit1.setDefaultValue(batchJobParameterAuditEntity1.getDefaultValue());
+            batchJobParameterAudit1.setMandatoryFlag(batchJobParameterAuditEntity1.getMandatoryFlag());
+            batchJobParameterAudit1.setParameterDescription(batchJobParameterAuditEntity1.getParameterDescription());
+            batchJobParameterAudit1.setParameterFormat(batchJobParameterAuditEntity1.getParameterFormat());
+            batchJobParameterAudit1.setParameterName(batchJobParameterAuditEntity1.getParameterName());
+            batchJobParameterAudit1.setParameterType(batchJobParameterAuditEntity1.getParameterType());
+            batchJobParameterAudit1.setRegexforValidation(batchJobParameterAuditEntity1.getRegexForValidation());
+            batchJobParameterAudit1.setVisibleFlag(batchJobParameterAuditEntity1.getVisibleFlag());
+            batchJobParameterAudit1.setOperation(batchJobParameterAuditEntity1.getOperation());
+            batchJobParameterAudit1.setAuditUserId(batchJobParameterAuditEntity1.getAuditUserId());
+            batchJobParameterAuditList.add(batchJobParameterAudit1);
+        });
+
+        return  batchJobAudit1;
+    }
+
+   public BatchJobParameterAudit batchJobParameterAudit(BatchJobParameterAudit batchJobParameterAudit){
+        BatchJobParameterAuditEntity batchJobParameterAuditEntity =
+                new BatchJobParameterAuditEntity();
+        batchJobParameterAuditEntity.setBatchJobParameterAuditId(0L);
+        batchJobParameterAuditEntity.setAuditUserId(batchJobParameterAudit.getAuditUserId());
+        batchJobParameterAuditEntity.setOperation(batchJobParameterAudit.getOperation());
+        batchJobParameterAuditEntity.setParameterName(batchJobParameterAudit.getParameterName());
+        batchJobParameterAuditEntity.setParameterFormat(batchJobParameterAudit.getParameterFormat());
+        batchJobParameterAuditEntity.setDefaultValue(batchJobParameterAudit.getDefaultValue());
+        batchJobParameterAuditEntity.setMandatoryFlag(batchJobParameterAudit.getMandatoryFlag());
+        batchJobParameterAuditEntity.setParameterDescription(batchJobParameterAudit.getParameterDescription());
+        batchJobParameterAuditEntity.setParameterType(batchJobParameterAudit.getParameterType());
+        batchJobParameterAuditEntity.setRegexForValidation(batchJobParameterAudit.getRegexforValidation());
+        batchJobParameterAuditEntity.setVisibleFlag(batchJobParameterAudit.getVisibleFlag());
+        BatchJobParameterAuditEntity batchJobParameterAuditEntityResult =
+                batchJobParameterAuditRepository.save(batchJobParameterAuditEntity);
+
+        BatchJobParameterAudit batchJobParameterAudit1 = new BatchJobParameterAudit();
+       batchJobParameterAuditEntity.setAuditUserId(batchJobParameterAudit.getAuditUserId());
+       batchJobParameterAuditEntity.setOperation(batchJobParameterAudit.getOperation());
+        batchJobParameterAudit1.setParameterId(batchJobParameterAuditEntityResult.getBatchJobParameterId());
+        batchJobParameterAudit1.getBatchJobId(batchJobParameterAuditEntityResult.getBatchJobId());
+       batchJobParameterAudit1.setAuditUserId(batchJobParameterAuditEntityResult.getAuditUserId());
+        batchJobParameterAudit1.setOperation(batchJobParameterAuditEntityResult.getOperation());
+        batchJobParameterAudit1.setParameterName(batchJobParameterAuditEntityResult.getParameterName());
+        batchJobParameterAudit1.setParameterFormat(batchJobParameterAuditEntityResult.getParameterFormat());
+        batchJobParameterAudit1.setDefaultValue(batchJobParameterAuditEntityResult.getDefaultValue());
+        batchJobParameterAudit1.setMandatoryFlag(batchJobParameterAuditEntityResult.getMandatoryFlag());
+        batchJobParameterAudit1.setParameterDescription(batchJobParameterAuditEntityResult.getParameterDescription());
+        batchJobParameterAudit1.setParameterType(batchJobParameterAuditEntityResult.getParameterType());
+        batchJobParameterAudit1.setRegexforValidation(batchJobParameterAuditEntityResult.getRegexForValidation());
+        batchJobParameterAudit1.setVisibleFlag(batchJobParameterAuditEntityResult.getVisibleFlag());
+        return batchJobParameterAudit1;
+    }
+
 
 }

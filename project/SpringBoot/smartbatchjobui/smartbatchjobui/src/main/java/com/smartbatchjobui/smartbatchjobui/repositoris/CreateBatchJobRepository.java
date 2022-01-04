@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Repository
 public interface CreateBatchJobRepository extends JpaRepository<CreateBatchJobEntity,Long>{
@@ -16,4 +15,5 @@ public interface CreateBatchJobRepository extends JpaRepository<CreateBatchJobEn
     // to mark delete or update query
     @Query(value = "DELETE FROM batch_job e WHERE e. batch_job_id=:BatchJobId" ,nativeQuery = true)
     void deleteById(long BatchJobId);
+
 }

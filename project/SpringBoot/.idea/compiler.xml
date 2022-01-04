@@ -6,15 +6,18 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="simpal-project" />
         <module name="smartbatchjobui" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="simpal-project" target="1.8" />
       <module name="smartbatchjobui" target="8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="simpal-project" options="-parameters" />
       <module name="smartbatchjobui" options="-parameters" />
     </option>
   </component>

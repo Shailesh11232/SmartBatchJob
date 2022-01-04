@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/SpringBoot.iml" filepath="$PROJECT_DIR$/.idea/SpringBoot.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../fullstack project/simpal first proj/simpal-project/simpal-project.iml" filepath="$PROJECT_DIR$/../../../fullstack project/simpal first proj/simpal-project/simpal-project.iml" />
       <module fileurl="file://$PROJECT_DIR$/smartbatchjobui/smartbatchjobui/smartbatchjobui.iml" filepath="$PROJECT_DIR$/smartbatchjobui/smartbatchjobui/smartbatchjobui.iml" />
     </modules>
   </component>

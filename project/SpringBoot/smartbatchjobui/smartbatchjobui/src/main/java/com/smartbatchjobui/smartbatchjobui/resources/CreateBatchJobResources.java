@@ -1,7 +1,10 @@
 package com.smartbatchjobui.smartbatchjobui.resources;
 
+import com.smartbatchjobui.smartbatchjobui.dto.BatchJobAudit;
+import com.smartbatchjobui.smartbatchjobui.dto.BatchJobParameterAudit;
 import com.smartbatchjobui.smartbatchjobui.dto.CreateBatchJob;
 import com.smartbatchjobui.smartbatchjobui.dto.CreateBatchJobParameter;
+import com.smartbatchjobui.smartbatchjobui.services.AuditBatchJobService;
 import com.smartbatchjobui.smartbatchjobui.services.CreateBatchJobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +20,8 @@ public class CreateBatchJobResources {
 
     @Autowired
     CreateBatchJobService createBatchJobService;
-
+     @Autowired
+    AuditBatchJobService auditBatchJobService;
 
     @PostMapping("cbj")
     ResponseEntity<CreateBatchJob>  CreateBJob(@RequestBody CreateBatchJob createBatchJob){
@@ -26,14 +30,29 @@ public class CreateBatchJobResources {
         if(createBatchJob.getBatchJobId() != null &&
                 createBatchJob.getBatchJobId()
                         != 0) {
-              /* CreateBatchJob createBatchJobResult =  createBatchJobService.CreateBJob(createBatchJob);
-              URI location = ServletUriComponentsBuilder.fromCurrentRequestUri() .path("{/id}").buildAndExpand(createBatchJobResult).toUri();
-              return ResponseEntity.created(location).body(createBatchJobResult);*/
+
                  System.out.println("batchjob id for update:"+batchJobId);
+
                  createBatchJobService.deleteAllParameter(batchJobId);
 
             CreateBatchJob createBatchJobResult =
                     createBatchJobService.createparameter(createBatchJob);
+            //////////////////////////////
+            BatchJobAudit batchJobAudit =new BatchJobAudit();
+            batchJobAudit.setBatchJobId(createBatchJob.getBatchJobId());
+            batchJobAudit.setBatchJobName(createBatchJob.getBatchJobName());
+            batchJobAudit.setBatchJobType(createBatchJob.getBatchJobType());
+            batchJobAudit.setBatchJobDescription(createBatchJob.getBatchJobDescription());
+            batchJobAudit.setCreateBatchJobParameter(createBatchJob.getCreateBatchJobParameter());
+           // batchJobAudit.setOperation("update");
+            // batchJobAudit.setAuditUserId("user");
+            //BatchJobAudit batchJobAuditResult =
+                 //   createBatchJobService .BatchJobAudit(batchJobAudit);
+            BatchJobParameterAudit batchJobperameterAudit = new BatchJobParameterAudit();
+
+            batchJobperameterAudit.setAuditUserId("user1");
+            batchJobperameterAudit.setOperation("update");
+            BatchJobParameterAudit  batchJobParameterAudit = createBatchJobService.batchJobParameterAudit(batchJobperameterAudit);
             URI location =
                     ServletUriComponentsBuilder.fromCurrentRequestUri()
                             .path("{/id}").buildAndExpand(createBatchJobResult).toUri();
@@ -42,12 +61,22 @@ public class CreateBatchJobResources {
 
             CreateBatchJob createBatchJobResult =
                     createBatchJobService.CreateBJob(createBatchJob);
+            BatchJobAudit batchJobAudit =new BatchJobAudit();
+            batchJobAudit.setBatchJobId(createBatchJob.getBatchJobId());
+            batchJobAudit.setBatchJobName(createBatchJob.getBatchJobName());
+            batchJobAudit.setBatchJobType(createBatchJob.getBatchJobType());
+            batchJobAudit.setBatchJobDescription(createBatchJob.getBatchJobDescription());
+            batchJobAudit.setCreateBatchJobParameter(createBatchJob.getCreateBatchJobParameter());
+            batchJobAudit.setOperation("create");
+            batchJobAudit.setAuditUserId("user");
+            BatchJobAudit batchJobAuditResult =
+                    createBatchJobService .BatchJobAudit(batchJobAudit);
+
             URI location =
                     ServletUriComponentsBuilder.fromCurrentRequestUri()
                             .path("{/id}").buildAndExpand(createBatchJobResult).toUri();
             return ResponseEntity.created(location).body(createBatchJobResult);
         }
-
 
     }
    // get batch job data by id
@@ -59,7 +88,7 @@ public class CreateBatchJobResources {
                 createBatchJobService.getIdBatchJob(createBatchJobId);
         return ResponseEntity.ok().body(createBatchJobParametersResult);
     }
-///get data by batchjob id
+//get data by batchjob id
     @GetMapping("batchData/{BatchJobId}")
     ResponseEntity<CreateBatchJob>  getAllId (@PathVariable(
             "BatchJobId")Long BatchJobId){
@@ -82,7 +111,18 @@ public class CreateBatchJobResources {
 
 
     @DeleteMapping("BatchJobDelete/{BatchJobId}")
-    void  DeleteBatchJob(@PathVariable("BatchJobId") long BatchJobId){
+    void  DeleteBatchJob(@PathVariable("BatchJobId") long BatchJobId , CreateBatchJob createBatchJob){
+        BatchJobAudit batchJobAudit =new BatchJobAudit();
+        batchJobAudit.setBatchJobId(createBatchJob.getBatchJobId());
+        batchJobAudit.setBatchJobName(createBatchJob.getBatchJobName());
+        batchJobAudit.setBatchJobType(createBatchJob.getBatchJobType());
+        batchJobAudit.setBatchJobDescription(createBatchJob.getBatchJobDescription());
+        batchJobAudit.setCreateBatchJobParameter(createBatchJob.getCreateBatchJobParameter());
+        batchJobAudit.setOperation("delete");
+        batchJobAudit.setAuditUserId("user");
+        BatchJobAudit batchJobAuditResult =
+                createBatchJobService .BatchJobAudit(batchJobAudit);
+
         createBatchJobService.deleteById(BatchJobId);
     }
 

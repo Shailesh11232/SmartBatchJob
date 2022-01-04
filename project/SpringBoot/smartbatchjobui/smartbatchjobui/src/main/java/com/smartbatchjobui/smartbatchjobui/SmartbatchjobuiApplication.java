@@ -16,6 +16,7 @@ public class SmartbatchjobuiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SmartbatchjobuiApplication.class, args);
 	}
+
 	@Bean
 	public CorsFilter corsFilter() {
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
